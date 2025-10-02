@@ -6,10 +6,11 @@ import org.almoxarifadoindustrial.util.Connect;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 public class FornecedorDao {
 
-    public void insert(Fornecedor fornecedor){
+    public void insert(Fornecedor fornecedor) throws SQLException {
         String sql = """
                 INSERT INTO Fornecedor (nome, cnpj)
                 VALUES (?, ?);
@@ -22,8 +23,7 @@ public class FornecedorDao {
             stmt.setString(2, fornecedor.getCnpj());
             stmt.executeUpdate();
 
-        }catch (SQLException e){
-            e.printStackTrace();
         }
+
     }
 }

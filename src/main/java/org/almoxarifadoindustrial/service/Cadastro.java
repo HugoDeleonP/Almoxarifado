@@ -1,12 +1,22 @@
 package org.almoxarifadoindustrial.service;
 
+import org.almoxarifadoindustrial.Main;
 import org.almoxarifadoindustrial.dao.FornecedorDao;
+import org.almoxarifadoindustrial.dao.MaterialDao;
 import org.almoxarifadoindustrial.model.Fornecedor;
+import org.almoxarifadoindustrial.model.Material;
+import org.almoxarifadoindustrial.view.UserException;
 import org.almoxarifadoindustrial.view.UserInterface;
+
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 public class Cadastro {
 
-    UserInterface ui;
+    private UserInterface ui;
+    private FornecedorDao fornecedorData = new FornecedorDao();
+    private MaterialDao materialData = new MaterialDao();
+
 
     public Cadastro(){
         ui = new UserInterface();
@@ -43,9 +53,14 @@ public class Cadastro {
 
         Fornecedor fornecedor = new Fornecedor(nome, cnpj);
 
-        FornecedorDao fornecedorData = new FornecedorDao();
-        fornecedorData.insert(fornecedor);
-        ui.sucessoInsert();
+        try{
+            fornecedorData.insert(fornecedor);
+            ui.sucessoInsert();
+        }catch (SQLIntegrityConstraintViolationException e){
+            ui.erroDuplicado("O CNPJ");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
 
     }
 
@@ -71,8 +86,25 @@ public class Cadastro {
         ● Exibir mensagem de sucesso ou erro (ex: “Material cadastrado com
         sucesso!” ou “Valor de estoque inválido!”)
         */
+        String operacao = "Cadastro material";
+        String entidade = "o material";
 
+        String nome = ui.inputString(operacao, "o nome", entidade);
+        String unidade = ui.inputString(operacao, "a unidade", entidade);
+        double estoque = ui.inputDouble(operacao, "o estoque", entidade);
 
+        Material material = new Material(nome, unidade, estoque);
+
+        boolean permissao = UserException.validateMaterial(material);
+
+        try{
+            if(permissao){
+                materialData.insert(material);
+                ui.sucessoInsert();
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
 
     }
 

@@ -29,7 +29,7 @@ public class Industria {
             }
 
             case 2 ->{
-
+                cadastro.createMaterial();
             }
 
             case 3 ->{

@@ -3,17 +3,17 @@ package org.almoxarifadoindustrial.model;
 public class Material {
     private Integer id;
     private String nome;
-    private double unidade;
+    private String unidade;
     private double estoque;
 
-    public Material(Integer id, String nome, double unidade, double estoque) {
+    public Material(Integer id, String nome, String unidade, double estoque) {
         this.id = id;
         this.nome = nome;
         this.unidade = unidade;
         this.estoque = estoque;
     }
 
-    public Material(String nome, double unidade, double estoque) {
+    public Material(String nome, String unidade, double estoque) {
         this.nome = nome;
         this.unidade = unidade;
         this.estoque = estoque;
@@ -35,11 +35,11 @@ public class Material {
         this.nome = nome;
     }
 
-    public double getUnidade() {
+    public String getUnidade() {
         return unidade;
     }
 
-    public void setUnidade(double unidade) {
+    public void setUnidade(String unidade) {
         this.unidade = unidade;
     }
 
@@ -49,5 +49,15 @@ public class Material {
 
     public void setEstoque(double estoque) {
         this.estoque = estoque;
+    }
+
+    @Override
+    public String toString() {
+        return "Material{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", unidade='" + unidade + '\'' +
+                ", estoque=" + estoque +
+                '}';
     }
 }

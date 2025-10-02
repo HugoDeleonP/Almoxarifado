@@ -35,10 +35,7 @@ public class UserInterface {
     public double inputDouble(String operacao, String atributo, String entidade){
         System.out.printf("=========================| %s |=========================\n\n", operacao);
         System.out.printf("\n Digite %s d%s:", atributo, entidade);
-        double answer = input.nextDouble();
-        input.nextLine();
-
-        return answer;
+        return UserException.verifyDouble(input, "Digite novamente: ");
     }
 
     public void atributoObrigatorio(String atributo){
@@ -49,11 +46,20 @@ public class UserInterface {
         System.out.printf("=========================| %s |=========================\n\n", operacao);
         System.out.printf("\n Digite %s d%s:", atributo, entidade);
 
-        return UserException.verifyNull(input, atributo);
+        return UserException.verifyNull(input);
     }
 
     public void sucessoInsert(){
         System.out.println("Dados enviados com sucesso!");
+    }
+
+    public void erroQuantidadeNegativo(){
+        System.err.println("A quantidade digitada está abaixo de zero.");
+        System.err.println("Digite uma quantidade acima de zero\n");
+    }
+
+    public void erroDuplicado(String atributo){
+        System.out.printf("%s digitado já existe no sistema!", atributo);
     }
 
 }
