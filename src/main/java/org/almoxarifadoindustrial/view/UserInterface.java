@@ -42,17 +42,18 @@ public class UserInterface {
     }
 
     public void atributoObrigatorio(String atributo){
-        System.out.printf("O %s é obrigatório!", atributo);
+        System.err.printf("O %s é obrigatório!", atributo);
     }
 
     public String inputString(String operacao, String atributo, String entidade){
         System.out.printf("=========================| %s |=========================\n\n", operacao);
         System.out.printf("\n Digite %s d%s:", atributo, entidade);
 
-
-
         return UserException.verifyNull(input, atributo);
     }
 
+    public void sucessoInsert(){
+        System.out.println("Dados enviados com sucesso!");
+    }
 
 }

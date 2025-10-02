@@ -19,13 +19,11 @@ public class UserException {
             try{
                 String answerString = input.nextLine();
                 answer = Integer.parseInt(answerString);
-                input.nextLine();
                 valido = true;
 
             }catch (NumberFormatException e){
                 System.err.println("Digite um número sem vírgula.");
-                System.err.println("Tente novamente.");
-                System.err.println(comando);
+                System.err.println("Digite o campo novamente: ");
             }
 
         }while(!valido);
@@ -33,7 +31,7 @@ public class UserException {
         return answer;
     }
 
-    public static double verifyDouble(Scanner input, String comando){
+    public static double verifyDouble(Scanner input, String comandoRepeticao){
         boolean valido = false;
         double answer = 0;
 
@@ -46,8 +44,7 @@ public class UserException {
 
             }catch (NumberFormatException e){
                 System.err.println("Digite um número com vírgula.");
-                System.err.println("Tente novamente.");
-                System.err.println(comando);
+                System.err.println("Digite o campo novamente: ");
             }
 
         }while(!valido);
@@ -56,21 +53,19 @@ public class UserException {
     }
 
     public static String verifyNull(Scanner input, String atributoObrigatorio){
-        boolean valido = false;
-
+        String answer = "";
 
         do{
-            String answer = input.nextLine();
-            if(!answer.trim().isEmpty()){
-                valido = true;
-                return answer;
+            try{
+                answer = input.nextLine();
+            }catch (NullPointerException e){
+                System.err.println("Campo obrigatório!");
+                System.err.println("Digite o campo novamente: ");
             }
 
-            ui.atributoObrigatorio(atributoObrigatorio);
+        }while(answer.trim().isEmpty());
 
-        }while(!valido);
-
-        return null;
+        return answer;
     }
 
 

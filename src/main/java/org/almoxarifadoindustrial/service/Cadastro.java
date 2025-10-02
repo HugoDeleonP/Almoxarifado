@@ -45,6 +45,7 @@ public class Cadastro {
 
         FornecedorDao fornecedorData = new FornecedorDao();
         fornecedorData.insert(fornecedor);
+        ui.sucessoInsert();
 
     }
 
@@ -70,6 +71,8 @@ public class Cadastro {
         ● Exibir mensagem de sucesso ou erro (ex: “Material cadastrado com
         sucesso!” ou “Valor de estoque inválido!”)
         */
+
+
 
     }
 

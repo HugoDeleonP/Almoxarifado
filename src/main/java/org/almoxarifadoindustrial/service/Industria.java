@@ -25,7 +25,7 @@ public class Industria {
     public void routerMain(int option){
         switch (option){
             case 1 ->{
-
+                cadastro.createFornecedor();
             }
 
             case 2 ->{
