@@ -20,6 +20,8 @@ public class NotaEntradaItemDao {
             stmt.setInt(1, notaEntradaItem.getNotaEntrada().getId());
             stmt.setInt(2, notaEntradaItem.getMaterial().getId());
             stmt.setDouble(3, notaEntradaItem.getQuantidade());
+
+            stmt.executeUpdate();
         }
     }
 

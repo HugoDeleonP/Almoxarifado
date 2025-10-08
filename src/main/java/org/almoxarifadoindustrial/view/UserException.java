@@ -134,7 +134,7 @@ public class UserException {
 
         double quantidade = notaEntradaItem.getQuantidade();
 
-        if(quantidade > 0){
+        if(quantidade < 0){
             return false;
         }
 

@@ -172,8 +172,13 @@ public class Cadastro {
             return;
         }
 
-
         operacao = "Associar Material a Nota Entrada";
+
+        try{
+            idCandidata = notaEntradaData.insert(fornecedor);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
 
         NotaEntrada notaEntrada = new NotaEntrada(idCandidata, fornecedor, LocalDate.now());
 
@@ -196,10 +201,11 @@ public class Cadastro {
             double estoqueTotal = quantidade + material.getEstoque();
 
             try{
-                idCandidata = notaEntradaData.insert(fornecedor);
+
                 ui.sucessoInsert();
                 notaEntradaItemData.insert(notaEntradaItem);
                 ui.sucessoInsert();
+
                 materialData.updateQuantidade(estoqueTotal, idMaterial);
                 ui.sucessoUpdate();
             }catch (SQLException e){
