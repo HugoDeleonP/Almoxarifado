@@ -35,4 +35,13 @@ public class NotaEntradaItem {
     public void setQuantidade(double quantidade) {
         this.quantidade = quantidade;
     }
+
+    @Override
+    public String toString() {
+        return "NotaEntradaItem{" +
+                "notaEntrada=" + notaEntrada +
+                ", material=" + material +
+                ", quantidade=" + quantidade +
+                '}';
+    }
 }

@@ -25,6 +25,16 @@ public class UserInterface {
         return UserException.verifyInt(input,"\nDigite o que deseja fazer, conforme a legenda acima:" );
     }
 
+    public int repeticao(String operacao){
+        System.out.printf("=========================| %s |=========================\n\n", operacao);
+        System.out.println(" 1 - Sim");
+        System.out.println(" 2 - Não");
+
+        System.out.println("Gostaria de adicionar mais um material à nota?");
+
+        return UserException.verifyInt(input, "\nDigite o que deseja fazer, conforme a legenda acima:");
+    }
+
     public int inputInt(String operacao, String atributo, String entidade){
         System.out.printf("=========================| %s |=========================\n\n", operacao);
         System.out.printf("\n Digite %s d%s:", atributo, entidade);
@@ -53,12 +63,16 @@ public class UserInterface {
         System.out.println("Dados enviados com sucesso!");
     }
 
-    public void erroQuantidadeNegativo(){
+    public void sucessoUpdate(){
+        System.out.println("Dados atualizados com sucesso!");
+    }
+
+    public static void erroQuantidadeNegativo(){
         System.err.println("A quantidade digitada está abaixo de zero.");
         System.err.println("Digite uma quantidade acima de zero\n");
     }
 
-    public void erroDuplicado(String atributo){
+    public static void erroDuplicado(String atributo){
         System.out.printf("%s digitado já existe no sistema!", atributo);
     }
 

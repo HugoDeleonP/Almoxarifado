@@ -33,7 +33,7 @@ public class Industria {
             }
 
             case 3 ->{
-
+                cadastro.createNotaEntrada();
             }
 
             case 4 ->{

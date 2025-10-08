@@ -3,23 +3,31 @@ package org.almoxarifadoindustrial.service;
 import org.almoxarifadoindustrial.Main;
 import org.almoxarifadoindustrial.dao.FornecedorDao;
 import org.almoxarifadoindustrial.dao.MaterialDao;
+import org.almoxarifadoindustrial.dao.NotaEntradaDao;
+import org.almoxarifadoindustrial.dao.NotaEntradaItemDao;
 import org.almoxarifadoindustrial.model.Fornecedor;
 import org.almoxarifadoindustrial.model.Material;
+import org.almoxarifadoindustrial.model.NotaEntrada;
+import org.almoxarifadoindustrial.model.NotaEntradaItem;
 import org.almoxarifadoindustrial.view.UserException;
 import org.almoxarifadoindustrial.view.UserInterface;
 
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.time.LocalDate;
 
 public class Cadastro {
 
     private UserInterface ui;
     private FornecedorDao fornecedorData = new FornecedorDao();
     private MaterialDao materialData = new MaterialDao();
-
+    private NotaEntradaDao notaEntradaData = new NotaEntradaDao();
+    private NotaEntradaItemDao notaEntradaItemData = new NotaEntradaItemDao();
+    public Busca busca;
 
     public Cadastro(){
         ui = new UserInterface();
+        busca = new Busca();
     }
 
     public void createFornecedor(){
@@ -51,20 +59,25 @@ public class Cadastro {
         String nome = ui.inputString(operacao, "o nome", entidade);
         String cnpj = ui.inputString(operacao, "o CNPJ", entidade);
 
+
         Fornecedor fornecedor = new Fornecedor(nome, cnpj);
+
+        boolean permissao = UserException.validateFornecedor(fornecedor);
+
+        if(!permissao){
+            return;
+        }
 
         try{
             fornecedorData.insert(fornecedor);
             ui.sucessoInsert();
-        }catch (SQLIntegrityConstraintViolationException e){
-            ui.erroDuplicado("O CNPJ");
         }catch (SQLException e){
             e.printStackTrace();
         }
 
     }
 
-    public void createMaterial(){
+    public void createMaterial() {
         /*
         Fluxo de execução:
         ● Menu exibe a opção Cadastrar Material.
@@ -86,6 +99,7 @@ public class Cadastro {
         ● Exibir mensagem de sucesso ou erro (ex: “Material cadastrado com
         sucesso!” ou “Valor de estoque inválido!”)
         */
+
         String operacao = "Cadastro material";
         String entidade = "o material";
 
@@ -97,11 +111,14 @@ public class Cadastro {
 
         boolean permissao = UserException.validateMaterial(material);
 
+        if(!permissao){
+            return;
+        }
+
         try{
-            if(permissao){
-                materialData.insert(material);
-                ui.sucessoInsert();
-            }
+            materialData.insert(material);
+            ui.sucessoInsert();
+
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -140,6 +157,62 @@ public class Cadastro {
         sucesso!” ou “Erro ao registrar nota de entrada!”)
 
         */
+
+        String operacao = "Cadastro Nota Entrada";
+
+        int idCandidata = 0;
+
+        busca.listaFornecedor();
+        int idFornecedor = ui.inputInt(operacao, "o ID", "o fornecedor");
+        Fornecedor fornecedor = busca.buscaFornecedor(idFornecedor);
+        boolean permissao = UserException.objectNull(fornecedor);
+
+        if(!permissao){
+            return;
+        }
+
+        try{
+            idCandidata = notaEntradaData.insert(fornecedor);
+            ui.sucessoInsert();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        operacao = "Associar Material a Nota Entrada";
+
+        NotaEntrada notaEntrada = new NotaEntrada(idCandidata, fornecedor, LocalDate.now());
+
+        boolean repetir;
+        do{
+            busca.listaMaterial();
+            int idMaterial = ui.inputInt(operacao, "o ID", "o material");
+            var material = busca.buscaMaterial(idMaterial);
+
+            double quantidade = ui.inputDouble(operacao, "a quantidade", "a nota entrada associado ao item");
+            var notaEntradaItem = new NotaEntradaItem(notaEntrada, material, quantidade);
+
+            permissao = UserException.validateNotaEntradaItem(notaEntradaItem);
+
+            if(!permissao){
+                return;
+            }
+
+            double estoqueTotal = quantidade + material.getEstoque();
+
+            try{
+                notaEntradaItemData.insert(notaEntradaItem);
+                ui.sucessoInsert();
+                materialData.updateQuantidade(estoqueTotal, idMaterial);
+                ui.sucessoUpdate();
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+
+            int opcao = ui.repeticao(operacao);
+
+            repetir = routerRepeticaoNotaEntrada(opcao);
+        }while(repetir);
+
     }
 
     public void createRequisicaoMaterial(){
@@ -166,5 +239,21 @@ public class Cadastro {
         ● Exibir mensagem de sucesso ou erro (ex: “Requisição de material criado
         com sucesso!” ou “Erro ao criar requisição!”)
         */
+    }
+
+    public Boolean routerRepeticaoNotaEntrada(int adicionarMais){
+        switch (adicionarMais){
+            case 1 ->{
+                return true;
+            }
+
+            case 2 ->{
+                return false;
+            }
+
+            default -> {
+                return null;
+            }
+        }
     }
 }

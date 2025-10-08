@@ -42,4 +42,13 @@ public class NotaEntrada {
     public void setDataEntrada(LocalDate dataEntrada) {
         this.dataEntrada = dataEntrada;
     }
+
+    @Override
+    public String toString() {
+        return "NotaEntrada{" +
+                "id=" + id +
+                ", fornecedor=" + fornecedor +
+                ", dataEntrada=" + dataEntrada +
+                '}';
+    }
 }

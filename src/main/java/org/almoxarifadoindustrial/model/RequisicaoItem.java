@@ -34,4 +34,13 @@ public class RequisicaoItem {
     public void setQuantidade(double quantidade) {
         this.quantidade = quantidade;
     }
+
+    @Override
+    public String toString() {
+        return "RequisicaoItem{" +
+                "requisicao=" + requisicao +
+                ", material=" + material +
+                ", quantidade=" + quantidade +
+                '}';
+    }
 }

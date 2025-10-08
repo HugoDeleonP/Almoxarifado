@@ -43,4 +43,13 @@ public class Requisicao {
     public void setDataSolicitacao(LocalDate dataSolicitacao) {
         this.dataSolicitacao = dataSolicitacao;
     }
+
+    @Override
+    public String toString() {
+        return "Requisicao{" +
+                "id=" + id +
+                ", setor='" + setor + '\'' +
+                ", dataSolicitacao=" + dataSolicitacao +
+                '}';
+    }
 }
