@@ -37,14 +37,14 @@ public class UserInterface {
 
     public int inputInt(String operacao, String atributo, String entidade){
         System.out.printf("=========================| %s |=========================\n\n", operacao);
-        System.out.printf("\n Digite %s d%s:", atributo, entidade);
+        System.out.printf("\n Digite %s d%s:\n", atributo, entidade);
 
         return UserException.verifyInt(input, "Digite novamente: ");
     }
 
     public double inputDouble(String operacao, String atributo, String entidade){
         System.out.printf("=========================| %s |=========================\n\n", operacao);
-        System.out.printf("\n Digite %s d%s:", atributo, entidade);
+        System.out.printf("\n Digite %s d%s:\n", atributo, entidade);
         return UserException.verifyDouble(input, "Digite novamente: ");
     }
 
@@ -54,7 +54,7 @@ public class UserInterface {
 
     public String inputString(String operacao, String atributo, String entidade){
         System.out.printf("=========================| %s |=========================\n\n", operacao);
-        System.out.printf("\n Digite %s d%s:", atributo, entidade);
+        System.out.printf("\n Digite %s d%s:\n", atributo, entidade);
 
         return UserException.verifyNull(input);
     }

@@ -8,6 +8,12 @@ public class Main {
     public static void main(String[] args) {
         UserInterface ui = new UserInterface();
         Industria industria = new Industria();
-        industria.routerMain(ui.mainMenu());
+        int opcaoUsuario = -1;
+
+        do{
+            opcaoUsuario = ui.mainMenu();
+            industria.routerMain(opcaoUsuario);
+        }while(opcaoUsuario != 0);
+
     }
 }

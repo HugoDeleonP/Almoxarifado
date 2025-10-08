@@ -168,15 +168,10 @@ public class Cadastro {
         boolean permissao = UserException.objectNull(fornecedor);
 
         if(!permissao){
+            System.out.println("Fornecedor não encontrado!");
             return;
         }
 
-        try{
-            idCandidata = notaEntradaData.insert(fornecedor);
-            ui.sucessoInsert();
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
 
         operacao = "Associar Material a Nota Entrada";
 
@@ -194,12 +189,15 @@ public class Cadastro {
             permissao = UserException.validateNotaEntradaItem(notaEntradaItem);
 
             if(!permissao){
+                System.out.println("Erro na associação do item à nota de entrada");
                 return;
             }
 
             double estoqueTotal = quantidade + material.getEstoque();
 
             try{
+                idCandidata = notaEntradaData.insert(fornecedor);
+                ui.sucessoInsert();
                 notaEntradaItemData.insert(notaEntradaItem);
                 ui.sucessoInsert();
                 materialData.updateQuantidade(estoqueTotal, idMaterial);
